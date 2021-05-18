@@ -1,0 +1,12 @@
+{
+  "background": "#1B1921",
+  "white": "#D6CEEB",
+  "whiteCard": "#A2A2B0",
+  "redAlert": "#E37F7F",
+  "dateCard": "#A2A2A2",
+  "greenVerifyCard": "#4A8C50",
+  "yellowCard": "#EFCD64",
+  "backgroundCreate": "#403F42",
+  "titleCreateCard": "#F0EFF3",
+  "backgroundInput": "#525252"
+}
