@@ -1,6 +1,6 @@
-/* eslint-disable camelcase */
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import uuid from 'react-native-uuid';
 
 import {
   ArrowBack,
@@ -16,6 +16,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import colors from '../styles/colors.json';
 import CRUD from '../database/CRUD';
 
+import {IRevisionSchema} from '../database/schemas/Revisions';
+
 const Add: React.FC = () => {
   const [theme, setTheme] = useState('');
 
@@ -25,8 +27,21 @@ const Add: React.FC = () => {
     navigation.goBack();
   }
 
-  function save(): void {
+  async function save(): Promise<void> {
     const crud = new CRUD();
+
+    const insertion: IRevisionSchema = {
+      name: 'Revision',
+      args: {
+        id: uuid.v4() as string,
+        theme,
+        date_created: new Date(),
+      },
+    };
+
+    await crud.create(insertion);
+
+    back();
   }
 
   return (

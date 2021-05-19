@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 export default class RevisionSchema {
   static schema = {
     name: 'Revision',
