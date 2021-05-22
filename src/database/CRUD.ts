@@ -10,6 +10,11 @@ interface IDelete {
   id: string;
 }
 
+interface IFindById {
+  name: string;
+  id: string;
+}
+
 export default class CRUD {
   async create({name, args}: ICreate): Promise<void> {
     const realm = await getRealm();
@@ -25,11 +30,19 @@ export default class CRUD {
     return realm.objects(name);
   }
 
+  async findById({name, id}: IFindById): Promise<Realm.Object> {
+    const realm = await getRealm();
+
+    return realm.objects(name).find(row => row.id === id) as Realm.Object;
+  }
+
   async delete({name, id}: IDelete): Promise<void> {
     const realm = await getRealm();
 
     const selectedRow = realm.objects(name).find(row => row.id === id);
 
-    realm.delete(selectedRow);
+    realm.write(() => {
+      realm.delete(selectedRow);
+    });
   }
 }

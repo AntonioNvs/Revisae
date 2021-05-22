@@ -17,6 +17,7 @@ import colors from '../styles/colors.json';
 import CRUD from '../database/CRUD';
 
 import {IRevisionSchema} from '../database/schemas/Revisions';
+import {INotificationSchema} from '../database/schemas/Notifications';
 
 const Add: React.FC = () => {
   const [theme, setTheme] = useState('');
@@ -29,17 +30,47 @@ const Add: React.FC = () => {
 
   async function save(): Promise<void> {
     const crud = new CRUD();
+    const revisionId = uuid.v4() as string;
 
-    const insertion: IRevisionSchema = {
+    const insertionRevision: IRevisionSchema = {
       name: 'Revision',
       args: {
-        id: uuid.v4() as string,
+        id: revisionId,
         theme,
         date_created: new Date(),
       },
     };
 
-    await crud.create(insertion);
+    await crud.create(insertionRevision);
+
+    const insertionNotification: INotificationSchema = {
+      name: 'Notification',
+      args: {
+        id: uuid.v4() as string,
+        id_revision: revisionId,
+        type: 1,
+      },
+    };
+
+    await crud.create(insertionNotification);
+
+    await crud.create({
+      ...insertionNotification,
+      args: {
+        ...insertionNotification.args,
+        id: uuid.v4() as string,
+        type: 7,
+      },
+    });
+
+    await crud.create({
+      ...insertionNotification,
+      args: {
+        ...insertionNotification.args,
+        id: uuid.v4() as string,
+        type: 30,
+      },
+    });
 
     back();
   }

@@ -12,6 +12,7 @@ export default class NotificationSchema {
 }
 
 export interface INotificationParams {
+  id: string;
   type: number;
   id_revision: string;
 }
